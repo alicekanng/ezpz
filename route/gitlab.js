@@ -1,23 +1,26 @@
 const axios = require("axios");
 const express = require("express");
+const { receiver } = require('./bolt')
 const route = express.Router();
+
 
 //TODO different projects and shit
 const GITLAB_PROJECT_ID=8920796
 
 
-route.get("/", (req, res) => {
+receiver.app.get("/", (req, res) => {
   console.log("here");
   res.send("getting");
 });
-route.post("/", (req, res) => {
+
+receiver.app.post("/", (req, res) => {
   console.log(Object.keys(req));
   console.log(req, "lklk")
 });
 
 
 
-route.get("/test", async (req, res) => {
+receiver.get("/test", async (req, res) => {
   
   console.log("Making a test request");
   try{
