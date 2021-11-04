@@ -1,4 +1,4 @@
-if (process.env.NODE_ENV === "development") require("dotenv").config();
+process.env.NODE_ENV !== "production" && require("dotenv").config();
 const { App, ExpressReceiver } = require("@slack/bolt");
 
 const receiver = new ExpressReceiver({
