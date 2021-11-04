@@ -1,24 +1,20 @@
 const gitLabRouter = require("./route/gitlab");
-const bot = require("./route/bolt");
-const express = require("express");
+const { app, receiver } = require("./route/bolt");
 
-const app = express();
+receiver.app.use("/gitlab", gitLabRouter);
 
-// parse json request body
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-if (process.env.NODE_ENV === "development") require("dotenv").config();
-// Initializes your app with your bot token and signing secret
-
-app.use("/gitlab", gitLabRouter);
-
-const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => {
-  async () => {
-    await bot.start(PORT);
-    console.log(`Slack Bot app is running on port ${PORT}`);
-  };
-  console.log("Server is running too", PORT);
+app.command("/wat", async ({ command, ack, say }) => {
+  try {
+    await ack();
+    say("Yaaay! that command works!");
+  } catch (error) {
+    console.log("err");
+    console.error(error);
+  }
 });
+
+(async () => {
+  const PORT = process.env.PORT || 3000;
+  await bot.start(PORT);
+  console.log(`Slack Bot app is running on port ${PORT}`);
+})();

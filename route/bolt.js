@@ -1,20 +1,16 @@
-const { App } = require("@slack/bolt");
+if (process.env.NODE_ENV === "development") require("dotenv").config();
+const { App, ExpressReceiver } = require("@slack/bolt");
+
+const receiver = new ExpressReceiver({
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+});
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
-  signingSecret: process.env.SLACK_SIGNING_SECRET,
-  socketMode: true, // enable the following to use socket mode
+  socketMode: false, // enable the following to use socket mode
   appToken: process.env.APP_TOKEN,
+  signingSecret: process.env.SLACK_SIGNING_SECRET,
+  receiver,
 });
 
-app.command("/wat", async ({ command, ack, say }) => {
-  try {
-    await ack();
-    say("Yaaay! that command works!");
-  } catch (error) {
-    console.log("err");
-    console.error(error);
-  }
-});
-
-module.exports = app;
+module.exports = { app, receiver };
