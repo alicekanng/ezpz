@@ -8,6 +8,16 @@ const app = new App({
   appToken: process.env.APP_TOKEN,
 });
 
+app.command("/wat", async ({ command, ack, say }) => {
+  try {
+    await ack();
+    say("Yaaay! that command works!");
+  } catch (error) {
+    console.log("err");
+    console.error(error);
+  }
+});
+
 (async () => {
   try {
     const port = process.env.PORT || 3000;
