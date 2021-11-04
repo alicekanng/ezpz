@@ -36,7 +36,7 @@ app.command("/wat", async ({ command, ack, say }) => {
             type: "section",
             text: {
               type: "mrkdwn",
-              text: `Open Merge Requests:\n*<${mr.web_url}|${mr.title}>*`,
+              text: `\n*${mr.title}*`,
             },
           },
           {
@@ -45,6 +45,10 @@ app.command("/wat", async ({ command, ack, say }) => {
               {
                 type: "mrkdwn",
                 text: "*Repository:*\nHelpful Stuff",
+              },
+              {
+                type: "mrkdwn",
+                text: `*Author:*\n${mr.author.name}`,
               },
               {
                 type: "mrkdwn",
@@ -76,20 +80,11 @@ app.command("/wat", async ({ command, ack, say }) => {
                 text: {
                   type: "plain_text",
                   emoji: true,
-                  text: "Approve",
+                  text: "View on Gitlab",
                 },
                 style: "primary",
                 value: "click_me_123",
-              },
-              {
-                type: "button",
-                text: {
-                  type: "plain_text",
-                  emoji: true,
-                  text: "View on Gitlab",
-                },
-                style: "danger",
-                value: "click_me_123",
+                url: mr.web_url,
               },
             ],
           },
