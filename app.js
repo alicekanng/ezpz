@@ -1,10 +1,13 @@
 const axios = require("axios");
 const gitLabRouter = require("./route/gitlab");
 const healthRouter = require("./route/health");
+
+const slackRouter = require("./route/slack");
 const { app, receiver } = require("./route/bolt");
 
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
+receiver.app,use("/slack", slackRouter);
 
 app.command("/wat", async ({ command, ack, say }) => {
   try {
