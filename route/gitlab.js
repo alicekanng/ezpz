@@ -11,7 +11,7 @@ route.get("/", (req, res) => {
   res.send("getting");
 });
 route.post("/", (req, res) => {
-  console.log(JSON.stringify(req));
+  console.log(Object.keys(req));
 });
 
 
