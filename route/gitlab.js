@@ -18,7 +18,7 @@ receiver.app.post("/", (req, res) => {
   console.log(req, "lklk")
 });
 
-receiver.route.get("/test", async (req, res) => {
+receiver.app.get("/test", async (req, res) => {
   
   console.log("Making a test request");
   try{
