@@ -3,11 +3,11 @@ const axios = require("axios");
 const route = express.Router();
 
 route.get("/", async (req, res) => {
-    await axios.post("https://hooks.slack.com/services/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", {
+    await axios.post(process.env.SLACK_WEBHOOK_URL, {
         "text": "chris is gac"
     }, {
         headers: {
-            'Content-type': 'application/json',
+            'Content-Type': 'application/json',
         }
     });
 
