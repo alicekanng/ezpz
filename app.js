@@ -60,7 +60,7 @@ app.command("/wat", async ({ command, ack, say }) => {
               },
               {
                 type: "mrkdwn",
-                text: `*Assignee:*\n${mr.assignee}`,
+                text: `*Assignee:*\n${mr.assignee.name}`,
               },
               {
                 type: "mrkdwn",
