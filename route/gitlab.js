@@ -2,6 +2,7 @@ const axios = require("axios");
 const express = require("express");
 const route = express.Router();
 const { formatMessage } = require('../formater')
+const { sendMessageToGroup } = require('../slackHelper')
 
 //TODO different projects and shit
 const GITLAB_PROJECT_ID=8920796
@@ -13,7 +14,9 @@ route.get("/", (req, res) => {
 
 route.post("/", (req, res) => {
   const type = req.get('X-Gitlab-Event')
-  console.log(formatMessage(type, req.body))
+  const message = formatMessage(type, req.body)
+  console.log(message)
+  sendMessageToGroup(message)
 });
 
 
