@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
   async () => {
-    await app.start(PORT);
+    await bot.start(PORT);
     console.log(`Slack Bot app is running on port ${PORT}`);
   };
   console.log("Server is running too", PORT);
