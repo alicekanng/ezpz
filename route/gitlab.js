@@ -12,6 +12,7 @@ route.get("/", (req, res) => {
 });
 route.post("/", (req, res) => {
   console.log(Object.keys(req));
+  console.log(req.body, "lklk")
 });
 
 
