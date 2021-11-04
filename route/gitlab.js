@@ -49,16 +49,18 @@ async function request(verb, endpoint, params) {
 }
 
 async function getMergeRequests(){
+    //https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
     return request('get', '/merge_requests', {
           state: 'opened',
           order_by: 'updated_at',
         });
 }
 
-async function getComments(iid){
-    return request('get', '/merge_requests/' + iid + '/notes', {
-    	sort:'desc',
-    	order_by:'updated_at'
+async function getDiscussions(iid){
+    //https://docs.gitlab.com/ee/api/discussions.html#list-project-issue-discussion-items
+    return request('get', '/merge_requests/' + iid + '/discussions', {
+        sort:'desc',
+        order_by:'updated_at'
     })
 }
 
@@ -66,19 +68,27 @@ route.get("/test", async (req, res) => {
   response = await getMergeRequests();
   var output = "";
 
+  //Go through open MRS
   for (const id of response.data.keys()){
     var item = response.data[id]
     output = output + "</br></br></br>" + item.title +"</br>";
+    
+    //use the issue ID
     if(item.iid){
       console.log("IID " + item.iid + " LETS GO");
-      comments = await getComments(item.iid);
-      console.log(comments);
-      for (const comment of comments.data){
-        if(comment.system){
-          continue;
+      //We use the issue id to pull discussions for that MR
+      discussions = await getDiscussions(item.iid);
+      console.log(JSON.stringify(discussions));
+      for (const discussion of discussions.data){
+          output = output + "DISCUSSION:</br>"
+          for (const comment of discussion.notes){
+          //I don't know if this shows up for /discussions but if you get /notes you'll also get notes from the system that say "Kevin approved" or whatever
+          if (comment.system){
+            continue;
+          }
+          output = output + "<br>" + (comment?.author?.name || "someone?") + ": " + comment.body;
         }
-      	var user = (comment?.author?.name || "someone?");
-      	output = output + "<br>" + user + ": " + comment.body;
+        output = output + "END DISCUSSION:</br></br></br>"
       }
     }
   }
