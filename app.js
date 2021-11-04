@@ -1,4 +1,5 @@
 const express = require("express");
+const gitLabRouter = require('./route/gitlab')
 
 const app = express();
 
@@ -14,6 +15,8 @@ app.get("/", (req, res) => {
 app.use((req, res, next) => {
   res.send("Not found");
 });
+
+app.use('/gitlab', gitLabRouter)
 
 const PORT = process.env.PORT || 3000;
 
