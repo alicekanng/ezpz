@@ -1,6 +1,5 @@
 const axios = require("axios");
 const express = require("express");
-const { receiver } = require('./bolt')
 const route = express.Router();
 
 
@@ -8,17 +7,17 @@ const route = express.Router();
 const GITLAB_PROJECT_ID=8920796
 
 
-receiver.app.get("/", (req, res) => {
+route.get("/", (req, res) => {
   console.log("here");
   res.send("getting");
 });
 
-receiver.app.post("/", (req, res) => {
+route.post("/", (req, res) => {
   console.log(Object.keys(req));
   console.log(req, "lklk")
 });
 
-receiver.app.get("/test", async (req, res) => {
+route.get("/test", async (req, res) => {
   
   console.log("Making a test request");
   try{
