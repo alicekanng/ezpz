@@ -5,7 +5,7 @@
 - brew tap heroku/brew && brew install heroku
 - heroku login
 - heroku git:remote -a ezpzmr
-- git push heroku main
+
 
 # Setting up api token to make calls to gitlab api locally:
 
