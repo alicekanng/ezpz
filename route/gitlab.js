@@ -11,7 +11,7 @@ route.get("/", (req, res) => {
   res.send("getting");
 });
 route.post("/", (req, res) => {
-  console.log(res.body);
+  console.log(req.body);
 });
 
 
