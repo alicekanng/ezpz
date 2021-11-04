@@ -20,7 +20,7 @@ receiver.app.post("/", (req, res) => {
 
 
 
-receiver.get("/test", async (req, res) => {
+receiver.app.get("/test", async (req, res) => {
   
   console.log("Making a test request");
   try{
