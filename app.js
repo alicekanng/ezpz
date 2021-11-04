@@ -1,13 +1,13 @@
 const axios = require("axios");
 const gitLabRouter = require("./route/gitlab");
 const healthRouter = require("./route/health");
-
 const slackRouter = require("./route/slack");
+const cron = require("./cron");
 const { app, receiver } = require("./route/bolt");
 
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
-receiver.app,use("/slack", slackRouter);
+receiver.app.use("/slack", slackRouter);
 
 app.command("/wat", async ({ command, ack, say }) => {
   try {
@@ -101,6 +101,8 @@ app.command("/wat", async ({ command, ack, say }) => {
     console.error(error);
   }
 });
+
+cron.startCron(() => {console.log((new Date().toLocaleString("en-US")) + " cron job ran")});
 
 (async () => {
   const PORT = process.env.PORT || 3000;
