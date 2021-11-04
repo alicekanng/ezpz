@@ -7,7 +7,7 @@ const { app, receiver } = require("./route/bolt");
 
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
-receiver.app.use("/slack", slackRouter);
+receiver.app.use("/mySlack", slackRouter);
 
 app.command("/wat", async ({ command, ack, say }) => {
   try {
@@ -102,7 +102,9 @@ app.command("/wat", async ({ command, ack, say }) => {
   }
 });
 
-cron.startCron(() => {console.log((new Date().toLocaleString("en-US")) + " cron job ran")});
+cron.startCron(() => {
+  console.log(new Date().toLocaleString("en-US") + " cron job ran");
+});
 
 (async () => {
   const PORT = process.env.PORT || 3000;
