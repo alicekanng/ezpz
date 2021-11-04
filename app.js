@@ -1,9 +1,13 @@
 const axios = require("axios");
+const express = require("express");
 const gitLabRouter = require("./route/gitlab");
 const healthRouter = require("./route/health");
 const slackRouter = require("./route/slack");
 const cron = require("./cron");
 const { app, receiver } = require("./route/bolt");
+
+receiver.router.use(express.json())
+receiver.router.use(express.urlencoded({ extended: false }))
 
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
