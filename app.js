@@ -15,6 +15,6 @@ app.command("/wat", async ({ command, ack, say }) => {
 
 (async () => {
   const PORT = process.env.PORT || 3000;
-  await bot.start(PORT);
+  await app.start(PORT);
   console.log(`Slack Bot app is running on port ${PORT}`);
 })();
