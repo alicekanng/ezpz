@@ -1,11 +1,9 @@
-const express = require("express");
-const gitLabRouter = require('./route/gitlab')
-
-const app = express();
+const { App } = require("@slack/bolt");
+const gitLabRouter = require("./route/gitlab");
 
 // parse json request body
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: false }));
 
 app.get("/healthcheck", (req, res) => {
   res.send(":)");
@@ -23,21 +21,22 @@ app.get("/", (req, res) => {
     appToken: process.env.APP_TOKEN,
   });
 
-  app.command("/wat", async ({ command, ack, say }) => {
-    try {
-      await ack();
-      say("Yaaay! that command works!");
-    } catch (error) {
-      console.log("err");
-      console.error(error);
-    }
-  });
+app.command("/wat", async ({ command, ack, say }) => {
+  try {
+    await ack();
+    say("Yaaay! that command works!");
+  } catch (error) {
+    console.log("err");
+    console.error(error);
+  }
+});
 
-  app.use('/gitlab', gitLabRouter)
+app.use("/gitlab", gitLabRouter);
 
-  const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
 
-  app.listen(PORT, () => {
-    console.log(`Example app listening at http://localhost:${PORT}`);
-  });
-})
+async () => {
+  await app.start(PORT);
+  console.log(`Slack Bot app is running on port ${PORT}`);
+}
+});
