@@ -1,8 +1,8 @@
 const axios = require("axios");
 
-module.exports.sendMessageToGroup = (message) => {
+module.exports.sendMessageToGroup = async (message) => 
     axios.post(process.env.SLACK_WEBHOOK_URL, 
-        { "text": message },
+        { "text": JSON.stringify(message) },
         {headers: { 'Content-Type': 'application/json' }}
     )
-}
+

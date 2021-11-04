@@ -12,11 +12,18 @@ route.get("/", (req, res) => {
   res.send("getting");
 });
 
-route.post("/", (req, res) => {
+route.post("/", async (req, res) => {
   const type = req.get('X-Gitlab-Event')
   const message = formatMessage(type, req.body)
   console.log(message)
-  sendMessageToGroup(message)
+  try{
+    await sendMessageToGroup(message)
+    return res.status(200)
+  } catch(err){
+    console.log(err);
+    return res.status(400)
+  }
+  
 });
 
 
