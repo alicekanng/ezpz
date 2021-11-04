@@ -25,7 +25,7 @@ app.command("/wat", async ({ command, ack, say }) => {
       }
     );
     console.log("OH YES: got data");
-    say(data);
+    say(JSON.stringify(data));
   } catch (error) {
     console.log("err");
     console.error(error);
