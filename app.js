@@ -1,7 +1,11 @@
 const gitLabRouter = require("./route/gitlab");
+const healthRouter = require("./route/health")
 const { app, receiver } = require("./route/bolt");
 
+
+
 receiver.app.use("/gitlab", gitLabRouter);
+receiver.app.use("/health", healthRouter);
 
 app.command("/wat", async ({ command, ack, say }) => {
   try {

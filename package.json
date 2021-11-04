@@ -21,7 +21,8 @@
   "homepage": "https://github.com/zwemsoe/ezpz#readme",
   "dependencies": {
     "@slack/bolt": "^3.8.1",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "axios": "^0.24.0"
   },
   "devDependencies": {
     "dotenv": "^10.0.0",
