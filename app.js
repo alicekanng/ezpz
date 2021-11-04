@@ -28,7 +28,74 @@ app.command("/wat", async ({ command, ack, say }) => {
       }
     );
     console.log("OH YES: got data");
-    say(JSON.stringify(data));
+
+    data.forEach((mr) =>
+      say({
+        blocks: [
+          {
+            type: "section",
+            text: {
+              type: "mrkdwn",
+              text: `Open Merge Requests:\n*<${mr.web_url}|${mr.title}>*`,
+            },
+          },
+          {
+            type: "section",
+            fields: [
+              {
+                type: "mrkdwn",
+                text: "*Repository:*\nHelpful Stuff",
+              },
+              {
+                type: "mrkdwn",
+                text: `*Date Opened:*\n${mr.created_at}`,
+              },
+              {
+                type: "mrkdwn",
+                text: `*Last Updated:*\n${mr.updated_at}`,
+              },
+              {
+                type: "mrkdwn",
+                text: `*Assignee:*\n${mr.assignee}`,
+              },
+              {
+                type: "mrkdwn",
+                text: `*Has Conflicts:*\n${mr.has_conflicts}`,
+              },
+              {
+                type: "mrkdwn",
+                text: `*Blocking Discussions Resolved:*\n${mr.blocking_discussions_resolved}`,
+              },
+            ],
+          },
+          {
+            type: "actions",
+            elements: [
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  emoji: true,
+                  text: "Approve",
+                },
+                style: "primary",
+                value: "click_me_123",
+              },
+              {
+                type: "button",
+                text: {
+                  type: "plain_text",
+                  emoji: true,
+                  text: "View on Gitlab",
+                },
+                style: "danger",
+                value: "click_me_123",
+              },
+            ],
+          },
+        ],
+      })
+    );
   } catch (error) {
     console.log("err");
     console.error(error);
