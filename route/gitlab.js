@@ -6,7 +6,7 @@ route.get("/", (req, res) => {
   res.send("getting");
 });
 route.post("/", (req, res) => {
-  console.log(res);
+  console.log(res.body);
 });
 
 module.exports = route;
