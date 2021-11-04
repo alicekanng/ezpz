@@ -1,7 +1,7 @@
 const axios = require("axios");
 const express = require("express");
 const route = express.Router();
-
+const { formatMessage } = require('../formater')
 
 //TODO different projects and shit
 const GITLAB_PROJECT_ID=8920796
@@ -13,8 +13,8 @@ route.get("/", (req, res) => {
 });
 
 route.post("/", (req, res) => {
-  console.log(Object.keys(req));
-  console.log(req, "lklk")
+  const type = req.get('X-Gitlab-Event')
+  console.log(formatMessage(type, req.body))
 });
 
 route.get("/test", async (req, res) => {
