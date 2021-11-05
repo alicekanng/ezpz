@@ -38,10 +38,27 @@ async function getMergeRequests() {
   });
 }
 
+async function getDiscussions(iid) {
+  //https://docs.gitlab.com/ee/api/discussions.html#list-project-issue-discussion-items
+  return request("get", "/merge_requests/" + iid + "/discussions", {
+    sort: "desc",
+    order_by: "updated_at",
+  });
+}
+
+function getOpenThreads(discussionsResponse) {
+  let openThreads = [];
+  discussionsResponse.data.forEach((data) => {
+    openThreads.push(...data.notes.filter((note) => note.resolvable === true));
+  });
+  return openThreads;
+}
+
 async function sendReminderToSlack() {
   const response = await getMergeRequests();
-  response.data.forEach((mr) => {
+  response.data.forEach(async (mr) => {
     const {
+      iid = "",
       title = "",
       description = "",
       author: { name = "", username = "", avatar_url = "" },
@@ -52,6 +69,8 @@ async function sendReminderToSlack() {
       merge_status = "",
       approvals_before_merge = 0,
     } = mr;
+    const discussionsResponse = await getDiscussions(iid);
+    const openThreads = getOpenThreads(discussionsResponse);
     const message = {
       attachments: [
         {
@@ -86,11 +105,17 @@ async function sendReminderToSlack() {
               title: "Merge Status:",
               value:
                 merge_status === "can_be_merged"
-                  ? ":white_check_mark: This merge request can be merged!"
-                  : `:speech_balloon: Need ${approvals_before_merge} more approvals`,
+                  ? "This merge request can be merged!"
+                  : `Need ${approvals_before_merge} more approvals`,
               short: false,
             },
-          ],
+          ].concat(
+            openThreads.map((openThread) => ({
+              title: `Unresolved comment opened by ${openThread.author.name}:`,
+              value: openThread.body,
+              short: false,
+            }))
+          ),
           actions: [
             {
               name: "sub",
