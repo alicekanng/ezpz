@@ -3,11 +3,12 @@ const express = require("express");
 const gitLabRouter = require("./route/gitlab");
 const healthRouter = require("./route/health");
 const slackRouter = require("./route/slack");
-const cron = require("./cron");
+const { runCron } = require("./cron");
+const { sendReminderToSlack } = require("./gitlabHelper");
 const { app, receiver } = require("./route/bolt");
 
-receiver.app.use(express.json())
-receiver.app.use(express.urlencoded({ extended: false }))
+receiver.app.use(express.json());
+receiver.app.use(express.urlencoded({ extended: false }));
 
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
@@ -101,12 +102,17 @@ app.command("/wat", async ({ command, ack, say }) => {
   }
 });
 
-cron.startCron(() => {
-  console.log(new Date().toLocaleString("en-US") + " cron job ran");
-});
+runCron(() => sendReminderToSlack(), "0 8 * * *"); // morning cron
+runCron(() => sendReminderToSlack(), "0 16 * * *"); // night cron
+runCron(
+  () => sendReminderToSlack(),
+  "*/5 * * * *"
+)(
+  // test cron
 
-(async () => {
-  const PORT = process.env.PORT || 3000;
-  await app.start(PORT);
-  console.log(`Slack Bot app is running on port ${PORT}`);
-})();
+  async () => {
+    const PORT = process.env.PORT || 3000;
+    await app.start(PORT);
+    console.log(`Slack Bot app is running on port ${PORT}`);
+  }
+)();

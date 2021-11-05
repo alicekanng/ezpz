@@ -1,0 +1,82 @@
+const { sendMessageToGroup } = require("./slackHelper");
+
+async function getMergeRequests() {
+  //https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests
+  return request("get", "/merge_requests", {
+    state: "opened",
+    order_by: "updated_at",
+  });
+}
+
+async function sendReminderToSlack() {
+  const response = await getMergeRequests();
+  response.data.forEach((mr) => {
+    const {
+      title = "",
+      description = "",
+      author: { name = "", username = "", avatar_url = "" },
+      web_url = "",
+      source_branch = "",
+      target_branch = "",
+      assignees = [],
+      merge_status = "",
+      approvals_before_merge = 0,
+    } = mr;
+    const message = {
+      attachments: [
+        {
+          fallback: `${name} has a merge request to helpful-stuff`,
+          color: "#36a64f",
+          pretext: `:envelope_with_arrow: ${name} has a merge request to helpful-stuff`,
+          author_name: name,
+          author_link: `https://gitlab.com/${username}`,
+          author_icon: avatar_url,
+          title,
+          title_link: web_url,
+          text: description,
+          fields: [
+            {
+              title: "Source:",
+              value: `<${web_url}/tree/${source_branch}|${source_branch}>`,
+              short: true,
+            },
+            {
+              title: "Target:",
+              value: `<${web_url}/tree/${target_branch}|${target_branch}>`,
+              short: true,
+            },
+            {
+              title: "Assignee:",
+              value: assignees[0]
+                ? assignees[0].name
+                : "No one is assigned to this MR",
+              short: false,
+            },
+            {
+              title: "Merge Status:",
+              value:
+                merge_status === "can_be_merged"
+                  ? "This merge request can be merged!"
+                  : `Need ${approvals_before_merge} more approvals`,
+              short: false,
+            },
+          ],
+          actions: [
+            {
+              name: "sub",
+              text: "Subscribe",
+              type: "button",
+              value: "subscribe",
+            },
+          ],
+          footer: "Gitlab Webhook",
+          footer_icon: avatar_url,
+          ts: Date.now(),
+        },
+      ],
+    };
+    sendMessageToGroup(message);
+  });
+}
+
+module.exports = { sendReminderToSlack };
