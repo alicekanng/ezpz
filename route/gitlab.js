@@ -100,39 +100,39 @@ route.get("/test", async (req, res) => {
           title,
           title_link: web_url,
           text: description,
-          fields:
-            [
-              {
-                title: "Source:",
-                value: `<${web_url}/tree/${source_branch}|${source_branch}>`,
-                short: true,
-              },
-              {
-                title: "Target:",
-                value: `<${web_url}/tree/${target_branch}|${target_branch}>`,
-                short: true,
-              },
-              {
-                title: "Assignee:",
-                value: assignees[0]
-                  ? assignees[0].name
-                  : "No one is assigned to this MR",
-                short: false,
-              },
-              {
-                title: "Merge Status:",
-                value:
-                  merge_status === "can_be_merged"
-                    ? "This merge request can be merged!"
-                    : `Need ${approvals_before_merge} more approvals`,
-                short: false,
-              },
-            ] +
+          fields: [
+            {
+              title: "Source:",
+              value: `<${web_url}/tree/${source_branch}|${source_branch}>`,
+              short: true,
+            },
+            {
+              title: "Target:",
+              value: `<${web_url}/tree/${target_branch}|${target_branch}>`,
+              short: true,
+            },
+            {
+              title: "Assignee:",
+              value: assignees[0]
+                ? assignees[0].name
+                : "No one is assigned to this MR",
+              short: false,
+            },
+            {
+              title: "Merge Status:",
+              value:
+                merge_status === "can_be_merged"
+                  ? "This merge request can be merged!"
+                  : `Need ${approvals_before_merge} more approvals`,
+              short: false,
+            },
+          ].concat(
             openThreads.map((openThread) => ({
               title: `Unresolved comment opened by ${openThread.author.name}:`,
               value: openThread.body,
               short: false,
-            })),
+            }))
+          ),
           actions: [
             {
               name: "sub",
