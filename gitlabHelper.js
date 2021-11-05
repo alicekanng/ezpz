@@ -1,4 +1,34 @@
+const axios = require("axios");
 const { sendMessageToGroup } = require("./slackHelper");
+
+const GITLAB_PROJECT_ID = 8920796;
+
+function getBaseUrl() {
+  return "https://gitlab.com/api/v4/projects/" + GITLAB_PROJECT_ID;
+}
+
+function getHeaders() {
+  return {
+    "PRIVATE-TOKEN": process.env.GITLAB_TOKEN,
+  };
+}
+
+async function request(verb, endpoint, params) {
+  try {
+    var { data } = await axios({
+      method: verb,
+      url: getBaseUrl() + endpoint,
+      headers: getHeaders(),
+      params: params,
+    });
+    return { data };
+  } catch (error) {
+    console.log("OH NO " + error);
+    if (error?.response?.data?.error) {
+      console.log("OH NO " + error.response.data.error);
+    }
+  }
+}
 
 async function getMergeRequests() {
   //https://docs.gitlab.com/ee/api/merge_requests.html#list-merge-requests

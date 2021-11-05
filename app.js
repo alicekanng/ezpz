@@ -102,9 +102,10 @@ app.command("/wat", async ({ command, ack, say }) => {
   }
 });
 
-runCron(() => sendReminderToSlack(), "0 8 * * *"); // morning cron
-runCron(() => sendReminderToSlack(), "0 14 * * *"); // night cron
-runCron(() => sendReminderToSlack(), "*/5 * * * *");
+runCron(async () => await sendReminderToSlack(), "0 8 * * *"); // morning cron
+runCron(async () => await sendReminderToSlack(), "0 14 * * *"); // night cron
+runCron(async () => await sendReminderToSlack(), "*/3 * * * *");
+
 (async () => {
   const PORT = process.env.PORT || 3000;
   await app.start(PORT);
