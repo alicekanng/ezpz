@@ -53,6 +53,7 @@ function getOpenThreads(discussionsResponse) {
       ...data.notes.filter((note) => note.resolvable === true && !note.resolved)
     );
   });
+  console.log(openThreads);
   return openThreads;
 }
 

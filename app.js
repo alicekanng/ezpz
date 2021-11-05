@@ -14,7 +14,7 @@ receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
 receiver.app.use("/mySlack", slackRouter);
 
-app.command("/wat", async ({ command, ack, say }) => {
+app.command("/open-mrs", async ({ command, ack, say }) => {
   try {
     await ack();
     const GITLAB_PROJECT_ID = 8920796;
@@ -65,7 +65,7 @@ app.command("/wat", async ({ command, ack, say }) => {
               },
               {
                 type: "mrkdwn",
-                text: `*Assignee:*\n${mr.assignee.name}`,
+                text: `*Assignee:*\n${mr.assignee?.name}`,
               },
               {
                 type: "mrkdwn",
