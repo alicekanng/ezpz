@@ -86,8 +86,8 @@ async function sendReminderToSlack() {
               title: "Merge Status:",
               value:
                 merge_status === "can_be_merged"
-                  ? "This merge request can be merged!"
-                  : `Need ${approvals_before_merge} more approvals`,
+                  ? ":white_check_mark: This merge request can be merged!"
+                  : `:speech_balloon: Need ${approvals_before_merge} more approvals`,
               short: false,
             },
           ],
