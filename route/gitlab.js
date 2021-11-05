@@ -66,7 +66,7 @@ async function getDiscussions(iid) {
 function getOpenThreads(discussionsResponse) {
   let openThreads = [];
   discussionsResponse.data.forEach((data) => {
-    openThreads.push(data.notes.filter((note) => note.resolvable === true));
+    openThreads.push(...data.notes.filter((note) => note.resolvable === true));
   });
   return openThreads;
 }
