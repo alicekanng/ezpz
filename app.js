@@ -103,16 +103,10 @@ app.command("/wat", async ({ command, ack, say }) => {
 });
 
 runCron(() => sendReminderToSlack(), "0 8 * * *"); // morning cron
-runCron(() => sendReminderToSlack(), "0 16 * * *"); // night cron
-runCron(
-  () => sendReminderToSlack(),
-  "*/5 * * * *"
-)(
-  // test cron
-
-  async () => {
-    const PORT = process.env.PORT || 3000;
-    await app.start(PORT);
-    console.log(`Slack Bot app is running on port ${PORT}`);
-  }
-)();
+runCron(() => sendReminderToSlack(), "0 14 * * *"); // night cron
+runCron(() => sendReminderToSlack(), "*/5 * * * *");
+(async () => {
+  const PORT = process.env.PORT || 3000;
+  await app.start(PORT);
+  console.log(`Slack Bot app is running on port ${PORT}`);
+})();
