@@ -104,7 +104,6 @@ app.command("/open-mrs", async ({ command, ack, say }) => {
 
 runCron(async () => await sendReminderToSlack(), "0 8 * * *"); // morning cron
 runCron(async () => await sendReminderToSlack(), "0 14 * * *"); // night cron
-runCron(async () => await sendReminderToSlack(), "*/2 * * * *");
 
 (async () => {
   const PORT = process.env.PORT || 3000;
