@@ -6,7 +6,7 @@ const { sendReminderToSlack } = require("../gitlabHelper");
 const { sendMessageToGroup } = require("../slackHelper");
 
 //TODO different projects and shit
-const GITLAB_PROJECT_ID = 8920796;
+const GITLAB_PROJECT_ID = 9578875;
 
 route.get("/", (req, res) => {
   console.log("here");

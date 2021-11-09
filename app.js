@@ -2,7 +2,6 @@ const axios = require("axios");
 const express = require("express");
 const gitLabRouter = require("./route/gitlab");
 const healthRouter = require("./route/health");
-const slackRouter = require("./route/slack");
 const { runCron } = require("./cron");
 const { sendReminderToSlack } = require("./gitlabHelper");
 const { app, receiver } = require("./route/bolt");
@@ -12,7 +11,6 @@ receiver.app.use(express.urlencoded({ extended: false }));
 
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
-receiver.app.use("/mySlack", slackRouter);
 
 app.command("/open-mrs", async ({ command, ack, say }) => {
   try {

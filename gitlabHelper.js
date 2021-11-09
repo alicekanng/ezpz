@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { sendMessageToGroup } = require("./slackHelper");
 
-const GITLAB_PROJECT_ID = 8920796;
+const GITLAB_PROJECT_ID = 9578875;
 
 function getBaseUrl() {
   return "https://gitlab.com/api/v4/projects/" + GITLAB_PROJECT_ID;
