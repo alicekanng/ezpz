@@ -5,6 +5,7 @@ const { runCron } = require("./cron");
 const { sendReminderToSlack } = require("./helpers/gitlab");
 const { app, receiver } = require("./config/bolt");
 require("./slash-commands");
+require("./events");
 
 receiver.app.use(express.json());
 receiver.app.use(express.urlencoded({ extended: false }));
