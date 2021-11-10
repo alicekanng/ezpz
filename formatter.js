@@ -249,11 +249,9 @@ const formatMREventMessage = (type, body) => {
           username: user_username = "",
           avatar_url = "",
         },
-        ref = "",
         project: { name: project_name = "", web_url = "" },
         object_attributes: { description = "" },
         merge_request: { title = "", url = "" },
-        assignees = [],
       } = body;
       return {
         attachments: [

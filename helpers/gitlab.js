@@ -1,6 +1,5 @@
 const axios = require("axios");
 const { sendMessageToGroup } = require("./slack");
-const { TEST_PID } = require("../config/project-ids");
 const { formatMRReminderMessage } = require("../formatter");
 
 function getBaseUrl() {
@@ -60,8 +59,8 @@ function getOpenThreads(discussionsResponse) {
   return openThreads;
 }
 
-async function sendReminderToSlack() {
-  const response = await getMergeRequests(TEST_PID);
+async function sendReminderToSlack(repo_id) {
+  const response = await getMergeRequests(repo_id);
 
   for (const mr of response) {
     const discussionsResponse = await getDiscussions(mr.iid);
