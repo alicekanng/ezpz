@@ -58,6 +58,7 @@ function getOpenThreads(discussionsResponse) {
 
 async function sendReminderToSlack() {
   const response = await getMergeRequests(TEST_PID);
+  console.log(response);
   response.data.forEach(async (mr) => {
     const discussionsResponse = await getDiscussions(mr.iid);
     const openThreads = getOpenThreads(discussionsResponse);
@@ -66,4 +67,4 @@ async function sendReminderToSlack() {
   });
 }
 
-module.exports = { sendReminderToSlack };
+module.exports = { sendReminderToSlack, getMergeRequests };
