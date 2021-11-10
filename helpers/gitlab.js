@@ -48,17 +48,20 @@ async function getDiscussions(iid) {
 
 function getOpenThreads(discussionsResponse) {
   let openThreads = [];
-  discussionsResponse.data.forEach((data) => {
-    openThreads.push(
-      ...data.notes.filter((note) => note.resolvable === true && !note.resolved)
-    );
-  });
+  if (discussionsResponse) {
+    discussionsResponse.data.forEach((data) => {
+      openThreads.push(
+        ...data.notes.filter(
+          (note) => note.resolvable === true && !note.resolved
+        )
+      );
+    });
+  }
   return openThreads;
 }
 
 async function sendReminderToSlack() {
   const response = await getMergeRequests(TEST_PID);
-  console.log(response);
   response.data.forEach(async (mr) => {
     const discussionsResponse = await getDiscussions(mr.iid);
     const openThreads = getOpenThreads(discussionsResponse);
