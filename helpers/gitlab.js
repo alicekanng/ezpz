@@ -62,12 +62,13 @@ function getOpenThreads(discussionsResponse) {
 
 async function sendReminderToSlack() {
   const response = await getMergeRequests(TEST_PID);
-  response.data.forEach(async (mr) => {
+
+  for (const mr of response) {
     const discussionsResponse = await getDiscussions(mr.iid);
     const openThreads = getOpenThreads(discussionsResponse);
     const message = formatMRReminderMessage(mr, openThreads);
     sendMessageToGroup(message);
-  });
+  }
 }
 
 module.exports = { sendReminderToSlack, getMergeRequests };
