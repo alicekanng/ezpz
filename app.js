@@ -8,11 +8,15 @@ require("./events");
 receiver.app.use(express.json());
 receiver.app.use(express.urlencoded({ extended: false }));
 
+receiver.app.use("/", (req, res) => {
+  return res.send("hello world");
+});
+
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
 
 (async () => {
-  const PORT = process.env.PORT || 3000;
+  const PORT = process.env.PORT || 8000;
   await app.start(PORT);
   console.log(`Slack Bot app is running on port ${PORT}`);
 })();
