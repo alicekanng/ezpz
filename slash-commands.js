@@ -15,15 +15,11 @@ app.command("/open-mrs", async ({ ack, say }) => {
   }
 });
 
-app.command("/gitlab-username", async ({ command, username, ack, say, client }) => {
+app.command("/gitlab-username", async ({ command, ack, say }) => {
   try {
     await ack();
-    console.log(command)
-    console.log(client)
-    const response = await app.client.users.identity
-    console.log(response)
-    const userSlackId = response.data.user.id
-    updateUserGitlabUsername(userSlackId, username)
+    const userSlackId = command.user_id
+    updateUserGitlabUsername(userSlackId, command.text)
     say('Username successfully stored!')
   } catch (error) {
     console.log("err");
