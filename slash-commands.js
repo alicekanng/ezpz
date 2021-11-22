@@ -19,7 +19,7 @@ app.command("/gitlab-username", async ({ command, ack, say }) => {
   try {
     await ack();
     const userSlackId = command.user_id
-    updateUserGitlabUsername(userSlackId, command.text)
+    store.updateUserGitlabUsername(userSlackId, command.text)
     say('Username successfully stored!')
   } catch (error) {
     console.log("err");
