@@ -1,9 +1,10 @@
 const { app } = require("./config/bolt");
 const { TEST_PID } = require("./config/project-ids");
 const { formatOpenMRBlock } = require("./formatter");
-const { getMergeRequests, getMembers } = require("./helpers/gitlab");
+const { getMergeRequests } = require("./helpers/gitlab");
+const store = require("./user-store");
 
-app.command("/open-mrs", async ({ command, ack, say }) => {
+app.command("/open-mrs", async ({ ack, say }) => {
   try {
     await ack();
     const response = await getMergeRequests(TEST_PID);
@@ -14,17 +15,16 @@ app.command("/open-mrs", async ({ command, ack, say }) => {
   }
 });
 
-app.command("/gitlab-username", async ({ command, username, ack, say }) => {
+app.command("/gitlab-username", async ({ command, username, ack, say, client }) => {
   try {
     await ack();
-    let usernameFound = false
-    const response = await getMembers(TEST_PID);
-    response.data.forEach((member) => {
-      if (username == member) {
-        usernameFound = true
-      }
-    })
-    usernameFound ? say('We already have your git lab username!') : say('Thank you for your username!')
+    console.log(command)
+    console.log(client)
+    const response = await app.client.users.identity
+    console.log(response)
+    const userSlackId = response.data.user.id
+    updateUserGitlabUsername(userSlackId, username)
+    say('Username successfully stored!')
   } catch (error) {
     console.log("err");
     console.error(error);
