@@ -11,6 +11,10 @@ class UserStore {
     return this.users.find((user) => user.slackId === id);
   }
 
+  getUsersSubscribedRepos(id) {
+    return getUserBySlackId(id).repos_sub
+  }
+
   addUser(slackId) {
     const user = {
       slackId,

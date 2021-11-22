@@ -1,5 +1,5 @@
 const { app } = require("./config/bolt");
-const { TEST_PID } = require("./config/project-ids");
+const { repoIds, repoNames } = require("./config/repos");
 const { formatOpenMRBlock } = require("./formatter");
 const { getMergeRequests } = require("./helpers/gitlab");
 const store = require("./user-store");
@@ -7,7 +7,7 @@ const store = require("./user-store");
 app.command("/open-mrs", async ({ ack, say }) => {
   try {
     await ack();
-    const response = await getMergeRequests(TEST_PID);
+    const response = await getMergeRequests(repoIds.TEST_REPO);
     response.data.forEach((mr) => say(formatOpenMRBlock(mr)));
   } catch (error) {
     console.log("err");
@@ -20,7 +20,10 @@ app.command("/gitlab-username", async ({ command, ack, say }) => {
     await ack();
     const userSlackId = command.user_id
     store.updateUserGitlabUsername(userSlackId, command.text)
-    say('Username successfully stored!')
+    const repoOptions = Object.keys(repoNames).join(',')
+
+    say(`Here are some repositories you can subscribe to: ${repoOptions}`)
+    say('Use the /subscribe command with the repo name to subscribe to a specific repository from the list above!')
   } catch (error) {
     console.log("err");
     console.error(error);

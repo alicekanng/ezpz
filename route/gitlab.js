@@ -1,5 +1,5 @@
 const express = require("express");
-const { TEST_PID } = require("../config/project-ids");
+const { repoIds } = require("../config/repos");
 const { formatMREventMessage } = require("../formatter");
 const route = express.Router();
 const { sendReminderToSlack } = require("../helpers/gitlab");
@@ -18,7 +18,7 @@ route.post("/", (req, res) => {
 });
 
 route.get("/test", async (req, res) => {
-  await sendReminderToSlack(TEST_PID);
+  await sendReminderToSlack(repoIds.TEST_REPO);
   return res.status(200);
 });
 

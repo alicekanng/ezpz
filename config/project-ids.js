@@ -1,6 +1,0 @@
-module.exports = {
-  GROW_FE_PID: 9578875,
-  OBS_PID: 18283784,
-  GROW_BE_PID: 3050484,
-  TEST_PID: 8920796,
-};
