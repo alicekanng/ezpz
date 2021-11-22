@@ -37,6 +37,12 @@ async function getMergeRequests(repo_id) {
   });
 }
 
+async function getMembers(repo_id) {
+  //https://docs.gitlab.com/ee/api/members.html
+  return request("get", `${repo_id}/members`, {
+  });
+}
+
 async function getDiscussions(iid) {
   //https://docs.gitlab.com/ee/api/discussions.html#list-project-issue-discussion-items
   return request("get", "/merge_requests/" + iid + "/discussions", {
@@ -70,4 +76,4 @@ async function sendReminderToSlack(repo_id) {
   }
 }
 
-module.exports = { sendReminderToSlack, getMergeRequests };
+module.exports = { sendReminderToSlack, getMergeRequests, getMembers };
