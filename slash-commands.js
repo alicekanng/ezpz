@@ -1,7 +1,7 @@
 const { app } = require("./config/bolt");
 const { repoIds, repoNames } = require("./config/repos");
 const { formatOpenMRBlock } = require("./formatter");
-const { getMergeRequests } = require("./helpers/gitlab");
+const { getMergeRequests, getMembers } = require("./helpers/gitlab");
 const store = require("./user-store");
 
 app.command("/open-mrs", async ({ ack, say }) => {
@@ -35,9 +35,13 @@ app.command("/subscribe", async ({ command, ack, say }) => {
     await ack()
     const userSlackId = command.user_id
     const repo = command.text
-
+    const gitlabUsername = store.getGitlabUsername(userSlackId)
+    
     if (repoNames[repo]) {
-      if (store.subscribeToRepo(userSlackId, repoNames[repo])) {
+      if (gitlabUsername) {
+        // const response = await getMembers(repoNames[repo])
+        // response.data.forEach((member) => say());
+        store.subscribeToRepo(userSlackId, repoNames[repo])
         say('Congrats on successfully subscribing, bro.')
       } else {
         say('What are you doing here?! Put in your gitlab user first!!!')

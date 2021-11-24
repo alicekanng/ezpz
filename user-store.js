@@ -11,6 +11,10 @@ class UserStore {
     return this.users.find((user) => user.slackId === id);
   }
 
+  getGitlabUsername(id) {
+    return getUserBySlackId(id)?.gitlabUsername
+  }
+
   getUsersSubscribedRepos(id) {
     return getUserBySlackId(id).repos_sub
   }

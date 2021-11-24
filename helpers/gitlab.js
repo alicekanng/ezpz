@@ -39,8 +39,10 @@ async function getMergeRequests(repo_id) {
 
 async function getMembers(repo_id) {
   //https://docs.gitlab.com/ee/api/members.html
-  return request("get", `${repo_id}/members`, {
-  });
+  const members = request("get", `${repo_id}/members`, { })
+  const all = request("get", `${repo_id}/members/all`, { })
+  const returnMembers = Object.assign(members, all)
+  return returnMembers
 }
 
 async function getDiscussions(iid) {
