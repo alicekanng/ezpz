@@ -9,10 +9,10 @@ class RepoStore {
     return this.repos.find((repo) => repo.id === repo_id);
   }
 
-  setRepo(repo_id) {
+  async setRepo(repo_id) {
     const index = this.repos.findIndex((repo) => repo.id === repo_id);
     if (index === -1) {
-      const members = getMembers(repo_id);
+      const members = await getMembers(repo_id);
       this.repos.push({ id: repo_id, members });
     }
   }
