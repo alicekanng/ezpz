@@ -39,10 +39,8 @@ async function getMergeRequests(repo_id) {
 
 async function getMembers(repo_id) {
   //https://docs.gitlab.com/ee/api/members.html
-  const members = await request("get", `${repo_id}/members`, {});
-  console.log(members);
-  const all = await request("get", `${repo_id}/members/all`, {});
-  console.log(all);
+  const { data: members } = await request("get", `${repo_id}/members`, {});
+  const { data: all } = await request("get", `${repo_id}/members/all`, {});
   let returnedMembers = [];
   [...members, ...all].forEach(({ id, username, name }) => {
     if (!username.includes("bot")) {
