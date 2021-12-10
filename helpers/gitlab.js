@@ -42,8 +42,8 @@ async function getMembers(repo_id) {
   const { data: members } = await request("get", `${repo_id}/members`, {});
   const { data: all } = await request("get", `${repo_id}/members/all`, {});
   let returnedMembers = [];
-  [...members, ...all].forEach(({ id, username, name }) => {
-    if (!username.includes("bot")) {
+  [...members, ...all].forEach(({ id, username, name, access_level }) => {
+    if (!username.includes("bot") && access_level >= 30) {
       members.push({
         id,
         username,
