@@ -19,6 +19,7 @@ class RepoStore {
 
   checkMemberPermission(repo_id, username) {
     const repo = this.repos.find((repo) => repo.id === repo_id);
+    console.log("REPO: ", repo);
     return repo?.members.find((member) => member.username === username);
   }
 }
