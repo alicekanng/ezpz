@@ -41,9 +41,8 @@ async function getMembers(repo_id) {
   //https://docs.gitlab.com/ee/api/members.html
   const members = request("get", `${repo_id}/members`, {});
   const all = request("get", `${repo_id}/members/all`, {});
-  const returnMembers = [...members, ...all];
-  let members = [];
-  returnMembers.forEach(({ id, username, name }) => {
+  let returnedMembers = [];
+  [...members, ...all].forEach(({ id, username, name }) => {
     if (!username.includes("bot")) {
       members.push({
         id,
@@ -52,7 +51,7 @@ async function getMembers(repo_id) {
       });
     }
   });
-  return members;
+  return returnedMembers;
 }
 
 async function getDiscussions(iid) {
