@@ -44,7 +44,7 @@ async function getMembers(repo_id) {
   let returnedMembers = [];
   [...members, ...all].forEach(({ id, username, name, access_level }) => {
     if (!username.includes("bot") && access_level >= 30) {
-      members.push({
+      returnedMembers.push({
         id,
         username,
         name,
