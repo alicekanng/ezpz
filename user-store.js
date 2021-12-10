@@ -12,11 +12,11 @@ class UserStore {
   }
 
   getGitlabUsername(id) {
-    return getUserBySlackId(id)?.gitlabUsername
+    return this.getUserBySlackId(id)?.gitlabUsername;
   }
 
   getUsersSubscribedRepos(id) {
-    return getUserBySlackId(id).repos_sub
+    return this.getUserBySlackId(id).repos_sub;
   }
 
   addUser(slackId) {
@@ -33,7 +33,7 @@ class UserStore {
     const index = this.users.findIndex((user) => user.slackId === id);
     const found = index !== -1;
     if (found) {
-      this.users[index].repos_sub.add(repoId)
+      this.users[index].repos_sub.add(repoId);
     }
     return found;
   }
