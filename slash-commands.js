@@ -43,7 +43,7 @@ app.command("/subscribe", async ({ command, ack, say }) => {
     if (repoNames[repo]) {
       if (gitlabUsername) {
         repoStore.setRepo(repoNames[repo]);
-        if (repoStore.checkMemberPermission(repoNames[repo], username)) {
+        if (repoStore.checkMemberPermission(repoNames[repo], gitlabUsername)) {
           userStore.subscribeToRepo(userSlackId, repoNames[repo]);
           say("Congrats on successfully subscribing, bro.");
         } else {
