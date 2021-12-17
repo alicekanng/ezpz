@@ -25,7 +25,7 @@ const addSubscribedBy = async (repoId, userId) => {
 };
 
 const checkMemberPermission = async (repoId, username) => {
-  const repo = getRepoById(repoId);
+  const repo = await getRepoById(repoId);
   return repo?.members.find((member) => member.username === username);
 };
 
