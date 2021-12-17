@@ -2,8 +2,17 @@ const { app } = require("./config/bolt");
 const { repoIds, repoNames } = require("./config/repos");
 const { formatOpenMRBlock } = require("./formatter");
 const { getMergeRequests } = require("./helpers/gitlab");
-const userStore = require("./user-store");
-const repoStore = require("./repo-store");
+const {
+  getRepoById,
+  addRepo,
+  checkMemberPermission,
+  addSubscribedBy,
+} = require("./services/repo.service");
+const {
+  updateGitlabUsername,
+  getUserBySlackId,
+  subscribeToRepo,
+} = require("./services/user.service");
 
 app.command("/open-mrs", async ({ ack, say }) => {
   try {
@@ -20,7 +29,10 @@ app.command("/gitlab-username", async ({ command, ack, say }) => {
   try {
     await ack();
     const userSlackId = command.user_id;
-    userStore.updateUserGitlabUsername(userSlackId, command.text);
+    updateGitlabUsername({
+      slackId: userSlackId,
+      gitlabUsername: command.text,
+    });
     const repoOptions = Object.keys(repoNames).join(", ");
 
     say(`Here are some repositories you can subscribe to: ${repoOptions}`);
@@ -38,13 +50,15 @@ app.command("/subscribe", async ({ command, ack, say }) => {
     await ack();
     const userSlackId = command.user_id;
     const repo = command.text;
-    const gitlabUsername = userStore.getGitlabUsername(userSlackId);
+    const user = await getUserBySlackId(userSlackId);
 
     if (repoNames[repo]) {
-      if (gitlabUsername) {
-        await repoStore.setRepo(repoNames[repo]);
-        if (repoStore.checkMemberPermission(repoNames[repo], gitlabUsername)) {
-          userStore.subscribeToRepo(userSlackId, repoNames[repo]);
+      if (user?.gitlabUsername) {
+        const existing = getRepoById(repoNames[repo]);
+        !existing && addRepo(repoNames[repo]);
+        if (checkMemberPermission(repoNames[repo], user?.gitlabUsername)) {
+          addSubscribedBy(repoNames[repo], user._id);
+          subscribeToRepo({ slackId: userSlackId, repoId: existing._id });
           say("Congrats on successfully subscribing, bro.");
         } else {
           say(`You are not a member of ${repo}!!!`);
@@ -56,7 +70,6 @@ app.command("/subscribe", async ({ command, ack, say }) => {
       say("Repository is not found! Please enter a valid name, bro.");
     }
   } catch (error) {
-    console.log("err");
     console.error(error);
   }
 });

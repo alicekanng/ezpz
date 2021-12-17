@@ -1,13 +1,12 @@
 const { app } = require("./config/bolt");
-const store = require("./user-store");
+const { getUserBySlackId, addUser } = require("./services/user.service");
 
-app.event("app_home_opened", ({ event, say }) => {
+app.event("app_home_opened", async ({ event, say }) => {
   const slackId = event.user;
-  let user = store.getUserBySlackId(slackId);
+  let user = await getUserBySlackId(slackId);
   if (!user) {
-    user = store.addUser(slackId);
+    user = await addUser(slackId);
   }
-  console.log(store.getUsers());
   if (!user.gitlabUsername) {
     say(
       `Hey, <@${event.user}>! Please use /gitlab-username command. (e.g /gitlab-username akang2)`
