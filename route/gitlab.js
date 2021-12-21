@@ -14,6 +14,7 @@ route.post("/", (req, res) => {
   const type = req.get("X-Gitlab-Event");
   const message = formatMREventMessage(type, req.body);
   console.log(message);
+  console.log('hi')
   sendMessageToGroup(message);
 });
 
