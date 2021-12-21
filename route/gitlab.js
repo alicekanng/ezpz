@@ -11,7 +11,6 @@ route.get("/", (req, res) => {
 });
 
 route.post("/", (req, res) => {
-  console.log(JSON.stringify(req))
   const type = req.get("X-Gitlab-Event");
   const message = formatMREventMessage(type, req.body);
   console.log(message);
