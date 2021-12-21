@@ -10,15 +10,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zwemsoe/ezpz.git"
+    "url": "git+https://github.com/alicekanng/ezpz.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/zwemsoe/ezpz/issues"
+    "url": "https://github.com/zwemsoe/alicekanng/issues"
   },
-  "homepage": "https://github.com/zwemsoe/ezpz#readme",
+  "homepage": "https://github.com/alicekanng/ezpz#readme",
   "dependencies": {
     "@slack/bolt": "^3.8.1",
     "axios": "^0.24.0",
