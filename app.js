@@ -9,10 +9,6 @@ require("./events");
 receiver.app.use(express.json());
 receiver.app.use(express.urlencoded({ extended: false }));
 
-receiver.app.use("/", (req, res) => {
-  return res.send("hello world");
-});
-
 receiver.app.use("/gitlab", gitLabRouter);
 receiver.app.use("/health", healthRouter);
 
