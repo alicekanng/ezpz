@@ -16,7 +16,7 @@ const {
   unsubscribeToRepo
 } = require("./services/user.service");
 
-app.command("/open-mrs", async ({ ack, say }) => {
+app.command("/open-mrs", async ({ ack, say, command }) => {
   try {
     await ack();
     const repo = command.text;
