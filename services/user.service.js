@@ -33,9 +33,20 @@ const subscribeToRepo = async ({ slackId, repoId }) => {
   return user;
 };
 
+const unsubscribeToRepo = async ({ slackId, repoId }) => {
+  const user = await User.findOneAndUpdate(
+    {
+      slackId,
+    },
+    { $pull: { subscriptions: repoId } }
+  );
+  return user;
+};
+
 module.exports = {
   getUserBySlackId,
   addUser,
   updateGitlabUsername,
   subscribeToRepo,
+  unsubscribeToRepo
 };

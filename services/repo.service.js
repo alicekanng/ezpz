@@ -24,6 +24,16 @@ const addSubscribedBy = async (repoId, userId) => {
   return repo;
 };
 
+const removedSubscribedBy = async (repoId, userId) => {
+  const repo = await Repo.findOneAndUpdate(
+    {
+      repoId,
+    },
+    { $pull: { subscribedBy: userId } }
+  );
+  return repo;
+};
+
 const checkMemberPermission = async (repoId, username) => {
   const repo = await getRepoById(repoId);
   return repo?.members.find((member) => member.username === username);
@@ -33,5 +43,6 @@ module.exports = {
   getRepoById,
   addRepo,
   addSubscribedBy,
+  removedSubscribedBy,
   checkMemberPermission,
 };

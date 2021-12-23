@@ -7,11 +7,13 @@ const {
   addRepo,
   checkMemberPermission,
   addSubscribedBy,
+  removedSubscribedBy,
 } = require("./services/repo.service");
 const {
   updateGitlabUsername,
   getUserBySlackId,
   subscribeToRepo,
+  unsubscribeToRepo
 } = require("./services/user.service");
 
 app.command("/open-mrs", async ({ ack, say }) => {
@@ -75,3 +77,31 @@ app.command("/subscribe", async ({ command, ack, say }) => {
     console.error(error);
   }
 });
+
+app.command('/unsubscribe', async ({ command, ack, say }) => {
+  try {
+    await ack();
+    const userSlackId = command.user_id;
+    const repo = command.text;
+    const user = await getUserBySlackId(userSlackId);
+
+    if (repoNames[repo]) {
+      if (user?.gitlabUsername) {
+        let existing = await getRepoById(repoNames[repo]);
+        if (!existing) {
+          say("Given repo does not exist, bro.");
+        } else {
+          removedSubscribedBy(repoNames[repo], user._id);
+          unsubscribeToRepo({ slackId: userSlackId, repoId: existing._id });
+        }
+      } else {
+        say("What are you doing here?! Put in your gitlab user first!!!");
+      }
+    } else {
+      say("Repository is not found! Please enter a valid name, bro.");
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
+})
