@@ -19,7 +19,8 @@ const {
 app.command("/open-mrs", async ({ ack, say }) => {
   try {
     await ack();
-    const response = await getMergeRequests(repoIds.TEST_REPO);
+    const repo = command.text;
+    const response = await getMergeRequests(repoNames[repo]);
     response.data.forEach((mr) => say(formatOpenMRBlock(mr)));
   } catch (error) {
     console.log("err");
