@@ -93,6 +93,7 @@ app.command('/unsubscribe', async ({ command, ack, say }) => {
         } else {
           removedSubscribedBy(repoNames[repo], user._id);
           unsubscribeToRepo({ slackId: userSlackId, repoId: existing._id });
+          say("Congrats on successfully unsubscribing, bro.");
         }
       } else {
         say("What are you doing here?! Put in your gitlab user first!!!");
