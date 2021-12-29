@@ -5,10 +5,11 @@ const getRepoById = (repoId) => {
   return Repo.findOne({ repoId });
 };
 
-const addRepo = async (repoId) => {
+const addRepo = async (repoId, repoName) => {
   const members = await getMembers(repoId);
   const repo = await Repo.create({
     repoId,
+    repoName,
     members,
   });
   return repo;

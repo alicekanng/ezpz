@@ -5,6 +5,10 @@ const repoSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  repoName: {
+    type: String,
+    required: true
+  },
   members: [
     {
       username: String,

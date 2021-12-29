@@ -43,10 +43,16 @@ const unsubscribeToRepo = async ({ slackId, repoId }) => {
   return user;
 };
 
+const getSubscribedRepos = async (slackId) => {
+  const user = User.findOne({ slackId }).populate('subscriptions.repo', 'repoName')
+  return user.subscriptions
+}
+
 module.exports = {
   getUserBySlackId,
   addUser,
   updateGitlabUsername,
   subscribeToRepo,
-  unsubscribeToRepo
+  unsubscribeToRepo,
+  getSubscribedRepos
 };

@@ -10,7 +10,12 @@ const userSchema = mongoose.Schema({
     type: String,
     unique: true,
   },
-  subscriptions: [{ type: mongoose.Schema.Types.ObjectId, ref: "Repo" }],
+  subscriptions: [
+    {
+    repo: { 
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Repo" }
+    }],
 });
 
 module.exports = mongoose.model("User", userSchema);
