@@ -28,7 +28,7 @@ const subscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $addToSet: { 'subscriptions.repo' : repoId } }
+    { $addToSet: { subscriptions : {$each : [{repo: repoId}] } }}
   );
   console.log('should have subscribed')
   return user;
