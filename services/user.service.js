@@ -28,7 +28,7 @@ const subscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $addToSet: { subscriptions: repoId } }
+    { $addToSet: { subscriptions: {repo: repoId} } }
   );
   return user;
 };
@@ -38,7 +38,7 @@ const unsubscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $pull: { subscriptions: repoId } }
+    { $pull: { subscriptions: {repo: repoId} } }
   );
   return user;
 };
