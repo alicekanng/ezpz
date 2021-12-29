@@ -24,19 +24,12 @@ const updateGitlabUsername = async ({ slackId, gitlabUsername }) => {
 };
 
 const subscribeToRepo = async ({ slackId, repoId }) => {
-  // const user = await User.findOneAndUpdate(
-  //   {
-  //     slackId,
-  //   },
-  //   { $addToSet: { 'subscriptions.repo' : repoId } }
-  // );
-  const user = await User.updateOne({ slackId }, 
-    { 'subscriptions.repo': { $ne: repoId } },
+  const user = await User.findOneAndUpdate(
     {
-      $push:
-        { subscriptions: { repo: repoId } }
-    }
-  )
+      slackId,
+    },
+    { $addToSet: { 'subscriptions.repo' : { repoId } } }
+  );
   return user;
 };
 
@@ -45,7 +38,7 @@ const unsubscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $pull: { 'subscriptions.repo': repoId } }
+    { $pull: { 'subscriptions.repo': { repoId } } }
   );
   return user;
 };
