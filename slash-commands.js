@@ -109,7 +109,7 @@ app.command('/unsubscribe', async ({ command, ack, say }) => {
   }
 })
 
-app.command("/show-repos", async ({ ack, say }) => {
+app.command("/show-repos", async ({ ack, say, command }) => {
   try {
     await ack();
     const userSlackId = command.user_id;
