@@ -39,7 +39,7 @@ const unsubscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $pull: { 'subscriptions.repo': repoId } }
+    { $pull: { subscriptions : {$each : [{repo: repoId}] } }}
   );
   return user;
 };
