@@ -45,7 +45,8 @@ const unsubscribeToRepo = async ({ slackId, repoId }) => {
 };
 
 const getSubscribedRepos = async (slackId) => {
-  return User.findOne({ slackId }).subscriptions
+  const user = await User.findOne({ slackId })
+  return user.subscriptions
 }
 
 module.exports = {
