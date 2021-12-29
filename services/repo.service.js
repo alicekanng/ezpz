@@ -20,7 +20,7 @@ const addSubscribedBy = async (repoId, userId) => {
     {
       repoId,
     },
-    { subscribedBy: { $addToSet: {user: userId} } }
+    { $addToSet: { 'subscribedBy.user' : userId } }
   );
   return repo;
 };
@@ -30,7 +30,7 @@ const removedSubscribedBy = async (repoId, userId) => {
     {
       repoId,
     },
-    { subscribedBy: { $pull: {user: userId} } }
+    { $pull: { 'subscribedBy.user' : userId } }
   );
   return repo;
 };
