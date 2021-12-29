@@ -2,7 +2,7 @@ const { getMembers } = require("../helpers/gitlab");
 const Repo = require("../models/repo.model");
 
 const getRepoById = (repoId) => {
-  return Repo.findOne({ repoId });
+  return Repo.findOne({ _id: repoId });
 };
 
 const addRepo = async (repoId, repoName) => {
