@@ -15,7 +15,12 @@ const repoSchema = mongoose.Schema({
       name: String,
     },
   ],
-  subscribedBy: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+  subscribedBy: [
+    { 
+      user: {
+        type: mongoose.Schema.Types.ObjectId, 
+        ref: "User" }
+    }]
 });
 
 module.exports = mongoose.model("Repo", repoSchema);
