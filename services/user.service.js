@@ -28,7 +28,7 @@ const subscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $push: { subscriptions : {$each : [{repo: repoId}] } }}
+    { $addToSet: { subscriptions: repoId } }
   );
   console.log('should have subscribed')
   return user;
@@ -39,14 +39,13 @@ const unsubscribeToRepo = async ({ slackId, repoId }) => {
     {
       slackId,
     },
-    { $pull: { subscriptions : {repo: repoId} }}
+    { $pull: { subscriptions: repoId} }
   );
   return user;
 };
 
 const getSubscribedRepos = async (slackId) => {
-  const user = User.findOne({ slackId }).populate('subscriptions.repo', 'repoName')
-  return user.subscriptions
+  return User.findOne({ slackId }).subscriptions
 }
 
 module.exports = {

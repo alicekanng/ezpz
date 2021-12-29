@@ -114,9 +114,10 @@ app.command("/show-repos", async ({ ack, say }) => {
     await ack();
     const userSlackId = command.user_id;
     const repos = await getSubscribedRepos(userSlackId);
-    repos.forEach((repoName) => {
-      say(`${repoName}`)
-    })
+    for(let repo of repos){
+      const {repoName} = await getRepoById(repo)
+      say(repoName)
+    }
   } catch (error) {
     console.log("err");
     console.error(error);

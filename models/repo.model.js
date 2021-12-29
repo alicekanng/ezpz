@@ -16,10 +16,9 @@ const repoSchema = mongoose.Schema({
     },
   ],
   subscribedBy: [
-    { 
-      user: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: "User" }
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User"
     }]
 });
 
