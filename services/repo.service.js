@@ -20,7 +20,7 @@ const addSubscribedBy = async (repoId, userId) => {
     {
       repoId,
     },
-    { $addToSet: { subscribedBy : {$each: [{user: userId}] } }}
+    { $push: { subscribedBy : {$each: [{user: userId}] } }}
   );
   console.log('should have subscribedBy')
   return repo;
