@@ -1,8 +1,12 @@
 const { getMembers } = require("../helpers/gitlab");
 const Repo = require("../models/repo.model");
 
-const getRepoById = (repoId) => {
+const getRepoByObjectId = (repoId) => {
   return Repo.findOne({ _id: repoId });
+};
+
+const getRepoById = (repoId) => {
+  return Repo.findOne({ repoId });
 };
 
 const addRepo = async (repoId, repoName) => {
@@ -42,6 +46,7 @@ const checkMemberPermission = async (repoId, username) => {
 };
 
 module.exports = {
+  getRepoByObjectId,
   getRepoById,
   addRepo,
   addSubscribedBy,

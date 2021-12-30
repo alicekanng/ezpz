@@ -3,6 +3,7 @@ const { repoIds, repoNames } = require("./config/repos");
 const { formatOpenMRBlock } = require("./formatter");
 const { getMergeRequests } = require("./helpers/gitlab");
 const {
+  getRepoByObjectId,
   getRepoById,
   addRepo,
   checkMemberPermission,
@@ -114,11 +115,8 @@ app.command("/show-repos", async ({ ack, say, command }) => {
     await ack();
     const userSlackId = command.user_id;
     const repos = await getSubscribedRepos(userSlackId);
-    console.log(repos)
     for(let repo of repos){
-      console.log(repo.toString())
-      const rip = await getRepoById(repo.toString())
-      console.log(rip)
+      const rip = await getRepoByObjectId(repo.toString())
       say(rip.repoName)
     }
   } catch (error) {
