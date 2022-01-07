@@ -63,8 +63,8 @@ app.command("/subscribe", async ({ command, ack, say }) => {
         if (!existing) {
           existing = addRepo(repoNames[repo], repo);
         }
-        if (checkMemberPermission(repoNames[repo], user?.gitlabUsername)) {
-          addSubscribedBy(repoNames[repo], user._id);
+        if (checkMemberPermission(existing._id, user?.gitlabUsername)) {
+          addSubscribedBy(existing._id, user._id);
           subscribeToRepo({ slackId: userSlackId, repoId: existing._id });
           say("Congrats on successfully subscribing, bro.");
         } else {

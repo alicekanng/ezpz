@@ -16,13 +16,14 @@ const addRepo = async (repoId, repoName) => {
     repoName,
     members,
   });
+  console.log('add repo repo', JSON.stringify(repo))
   return repo;
 };
 
 const addSubscribedBy = async (repoId, userId) => {
   const repo = await Repo.findOneAndUpdate(
     {
-      repoId,
+      _id: repoId,
     },
     { $addToSet: { subscribedBy: userId } }
   );
@@ -41,7 +42,7 @@ const removedSubscribedBy = async (repoId, userId) => {
 };
 
 const checkMemberPermission = async (repoId, username) => {
-  const repo = await getRepoById(repoId);
+  const repo = await getRepoByObjectId(repoId);
   console.log('check member permission repo', repo)
   return repo?.members.find((member) => member.username === username);
 };
