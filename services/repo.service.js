@@ -42,6 +42,7 @@ const removedSubscribedBy = async (repoId, userId) => {
 
 const checkMemberPermission = async (repoId, username) => {
   const repo = await getRepoById(repoId);
+  console.log('check member permission repo', repo)
   return repo?.members.find((member) => member.username === username);
 };
 
