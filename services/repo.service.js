@@ -26,7 +26,7 @@ const addSubscribedBy = async (repoId, userId) => {
     },
     { $addToSet: { subscribedBy: userId } }
   );
-  console.log('should have subscribedBy')
+  console.log(JSON.stringify(repo))
   return repo;
 };
 

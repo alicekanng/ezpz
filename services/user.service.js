@@ -30,7 +30,7 @@ const subscribeToRepo = async ({ slackId, repoId }) => {
     },
     { $addToSet: { subscriptions: repoId } }
   );
-  console.log('should have subscribed')
+  console.log(JSON.stringify(user))
   return user;
 };
 
