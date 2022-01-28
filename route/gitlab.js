@@ -10,12 +10,11 @@ route.get("/", (req, res) => {
   res.send("getting");
 });
 
-route.post("/", (req, res) => {
+route.post("/", async (req, res) => {
   const type = req.get("X-Gitlab-Event");
   const message = formatMREventMessage(type, req.body);
   console.log(message);
-  console.log('hi')
-  sendMessageToGroup(message);
+  await sendMessageToGroup(message);
 });
 
 route.get("/test", async (req, res) => {
